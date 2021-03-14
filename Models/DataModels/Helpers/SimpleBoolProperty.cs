@@ -7,7 +7,7 @@ namespace AccountsData.Models.DataModels.Helpers
     public class SimpleBoolProperty : Property, IEquatable<SimpleBoolProperty>
 
     {
-        protected bool Data;
+        public bool Data { get; set; }
 
         public override void SetDefaultBannedValue()
         {

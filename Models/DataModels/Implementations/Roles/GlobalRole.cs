@@ -8,6 +8,11 @@ namespace AccountsData.Models.DataModels.Implementations.Roles
     public class GlobalRole : Role
     {
         public string Name { get; set; }
+
+        public GlobalRole()
+        {
+            
+        }
         public GlobalRole(DataModels.Properties properties, ApplicationUser author, string Name)
         {
             scope = new GlobalScope();

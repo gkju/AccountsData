@@ -10,6 +10,11 @@ namespace AccountsData.Models.DataModels.Implementations.Roles
         public class BoardRole : Role
         {
             public string Name { get; set; }
+
+            public BoardRole()
+            {
+                
+            }
             public BoardRole(DataModels.Properties properties, Board board, ApplicationUser author, string roleName)
             {
                 Name = roleName;

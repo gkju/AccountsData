@@ -7,6 +7,8 @@ namespace AccountsData.Models.DataModels.Abstracts
 {
     public abstract class Scope : IEquatable<Scope>
     {
+        [Key]
+        public Guid Id { get; set; }
 
         public virtual String Name { get; set; } = "DefaultScopeName";
         

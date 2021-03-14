@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using AccountsData.Models.DataModels.Abstracts;
@@ -8,14 +10,20 @@ using AccountsData.Models.DataModels.Implementations.Properties;
 
 namespace AccountsData.Models.DataModels
 {
-    public class Properties : IEnumerable<Property>
+    public class Properties : IEnumerable<Property>, IEquatable<Properties>, ICollection<Property>
     {
+
         //never write directly, always use objectInstance[string] = 
         protected Dictionary<string, Property> _propertyDictionary
         {
             get;
             set;
         } = new Dictionary<string, Property>();
+
+        public Properties()
+        {
+            
+        }
 
         public Properties(params Property[] parameters)
         {
@@ -51,7 +59,7 @@ namespace AccountsData.Models.DataModels
                 value = (Property) value.Clone();
                 //for safety reasons overrides the name
                 propertyName = GetNameFromInstance(value);
-                
+
                 if (_propertyDictionary.ContainsKey(BannedProperty.Name) && _propertyDictionary.ContainsValue(new BannedProperty()))
                 {
                     value.SetDefaultBannedValue();
@@ -62,6 +70,12 @@ namespace AccountsData.Models.DataModels
                         property.Value.SetDefaultBannedValue();
                     }
                 }
+
+                if (!_propertyDictionary.ContainsKey(propertyName))
+                {
+                    ++Count;
+                }
+                
                 _propertyDictionary[propertyName] = value;
             }
         }
@@ -74,7 +88,7 @@ namespace AccountsData.Models.DataModels
         public void InsertOrMerge(Property property)
         {
             property = (Property) property.Clone();
-            
+
             string propertyName = GetNameFromInstance(property);
 
             if (ReferenceEquals(propertyName, null))
@@ -88,6 +102,7 @@ namespace AccountsData.Models.DataModels
             }
             else
             {
+                ++Count;
                 this[propertyName] = property;
             }
         }
@@ -139,5 +154,129 @@ namespace AccountsData.Models.DataModels
         {
             return new List<string>(_propertyDictionary.Keys);
         }
+
+        public bool Equals(Properties? other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            
+            try
+            {
+                foreach (var property in _propertyDictionary)
+                {
+                    if (!other._propertyDictionary.Contains(property))
+                    {
+                        return false;
+                    }
+                }
+                
+                foreach (var property in other._propertyDictionary)
+                {
+                    if (!_propertyDictionary.Contains(property))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+
+            Type t = obj.GetType();
+
+            try
+            {
+                Properties otherObj = (Properties) obj;
+                return Equals(otherObj);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public void Add(Property item)
+        {
+            if (item == null)
+            {
+                return;
+            }
+            InsertOrMerge(item);
+        }
+
+        public void Clear()
+        {
+            Count = 0;
+            _propertyDictionary = new Dictionary<string, Property>();
+        }
+
+        public bool Contains(Property item)
+        {
+            foreach (var prop in _propertyDictionary)
+            {
+                if (prop.Value == item)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool ContainsPropertyCalled(Property item)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            string itemName = GetNameFromInstance(item);
+            return _propertyDictionary.ContainsKey(itemName);
+        }
+
+        public bool ContainsPropertyCalled(string itemName)
+        {
+            return _propertyDictionary.ContainsKey(itemName);
+        }
+
+        public int Count { get; set; }
+
+        public bool Remove(Property item)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            --Count;
+
+            return _propertyDictionary.Remove(GetNameFromInstance(item));
+        }
+
+        public void CopyTo(Property[] array, int arrayIndex)
+        {
+            int i = arrayIndex;
+            foreach (var property in _propertyDictionary)
+            {
+                array[i] = property.Value;
+                ++i;
+            }
+        }
+
+        public bool IsReadOnly { get; } = false;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AccountsData.Models.DataModels.Abstracts
 {
@@ -18,6 +19,7 @@ namespace AccountsData.Models.DataModels.Abstracts
 
         public virtual string Name { get; set; } = "DefaultRoleName";
 
+        [Key]
         public Guid Id { get; set; }
         
         public Properties properties { get; set; }

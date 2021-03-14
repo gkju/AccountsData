@@ -15,8 +15,14 @@ namespace AccountsData.Models.DataModels.Implementations.Roles
             properties = new DataModels.Properties(new BannedProperty());
         }
 
+        public BannedRole()
+        {
+            
+        }
+
         public BannedRole(Scope scope)
         {
+            Id = Guid.NewGuid();
             this.scope = scope;
             Initialize();
         }

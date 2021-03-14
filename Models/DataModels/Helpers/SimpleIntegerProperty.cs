@@ -6,7 +6,7 @@ namespace AccountsData.Models.DataModels.Helpers
     
     public class SimpleIntegerProperty : Property, IEquatable<SimpleIntegerProperty>
     {
-        protected int Data;
+        public int Data { get; set; }
 
         public SimpleIntegerProperty()
         {

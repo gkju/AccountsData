@@ -13,10 +13,19 @@ namespace AccountsData.Models.DataModels.Implementations.RoleScope
         
         public new readonly string Name = "BoardScope";
         public string SubName { get; set; }
+
+        public Board board;
+        public string boardId;
+
+        public BoardScope()
+        {
+            Initialize();
+        }
         public BoardScope(Board board)
         {
             Initialize();
-            
+            this.board = board;
+            boardId = board.Name;
             SubName = board.Name;
         }
         
