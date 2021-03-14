@@ -6,7 +6,7 @@ namespace AccountsData.Models.DataModels.Helpers
     
     public class SimpleIntegerProperty : Property, IEquatable<SimpleIntegerProperty>
     {
-        protected int Data;
+        public int Data { get; set; }
 
         public SimpleIntegerProperty()
         {
@@ -35,6 +35,11 @@ namespace AccountsData.Models.DataModels.Helpers
             Data = 0;
         }
 
+        public override void SetDefaultAdminValue()
+        {
+            
+        }
+
         public override Property MakeACombination(Property _parentProperty)
         {
             SimpleIntegerProperty parentProperty = new SimpleIntegerProperty((SimpleIntegerProperty) _parentProperty);
@@ -51,6 +56,11 @@ namespace AccountsData.Models.DataModels.Helpers
 
         public static implicit operator int(SimpleIntegerProperty property)
         {
+            if (ReferenceEquals(property, null))
+            {
+                return 0;
+            }
+            
             return property.Data;
         }
 

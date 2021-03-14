@@ -1,16 +1,15 @@
 ﻿using System;
 using AccountsData.Models.DataModels.Helpers;
 
-
 namespace AccountsData.Models.DataModels.Implementations.Properties
 {
-    public class AuthorityProperty : SimpleIntegerProperty
+    public class AdminProperty : SimpleBoolProperty
     {
-        public AuthorityProperty()
+        public AdminProperty()
         {
             Id = Guid.NewGuid();
         }
-        public AuthorityProperty(int data)
+        public AdminProperty(bool data)
         {
             this.Data = data;
             Id = Guid.NewGuid();
@@ -18,14 +17,14 @@ namespace AccountsData.Models.DataModels.Implementations.Properties
         
         public override void SetDefaultBannedValue()
         {
-            Data = 0;
+            Data = false;
         }
-
-        public int GetValue()
+        
+        public override void SetDefaultAdminValue()
         {
-            return Data;
+            Data = true;
         }
 
-        public new static string Name = "Authority";
+        public new static string Name = "Admin";
     }
 }

@@ -4,7 +4,7 @@ using AccountsData.Models.DataModels.Abstracts;
 
 namespace AccountsData.DataModels.Helpers
 {
-    public abstract class GenericProperty<T> : Property where T : IComparable
+    public abstract class GenericProperty<T> : Property where T : IEquatable<T>
     {
         public T Data { get; set; }
 

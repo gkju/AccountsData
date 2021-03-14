@@ -5,26 +5,19 @@ using AccountsData.Models.DataModels.Implementations.Properties;
 
 namespace AccountsData.Models.DataModels.RoleProperties
 {
-    public class GenericRoleProperties : Properties
+    public class MemberRoleProperties : Properties
     {
         private void Initialize()
         {
             _propertyDictionary = new Dictionary<string, Property>()
             {
-                {AdminProperty.Name, new AdminProperty(false)},
-                {AuthorityProperty.Name, new AuthorityProperty(0)},
-                {BanUsersProperty.Name, new BanUsersProperty(false)},
-                {EditOrDeleteProperty.Name, new EditOrDeleteProperty(false)},
-                {MayManageRolesProperty.Name, new MayManageRolesProperty(false)},
-                {Prefixes.Name, new Prefixes()},
-                {ReadProperty.Name, new ReadProperty(false)},
-                {ViewProperty.Name, new ViewProperty(false)},
-                {WriteProperty.Name, new WriteProperty(false)},
-            };
+                {AuthorityProperty.Name, new AuthorityProperty(1)},
+                {MemberProperty.Name, new MemberProperty()}
+            };  
             Count = _propertyDictionary.Count;
         } 
 
-        public GenericRoleProperties(Properties properties, int userAuthority = 0)
+        public MemberRoleProperties(Properties properties, int userAuthority = 0)
         {
             Initialize();
             
@@ -38,7 +31,7 @@ namespace AccountsData.Models.DataModels.RoleProperties
             this[AuthorityProperty.Name] = new AuthorityProperty(Math.Min(userAuthority, ((AuthorityProperty) this[AuthorityProperty.Name]).GetValue()));
         }
         
-        public GenericRoleProperties(int userAuthority = 0, params Property[] parameters)
+        public MemberRoleProperties(int userAuthority = 0, params Property[] parameters)
         {
             Initialize();
 

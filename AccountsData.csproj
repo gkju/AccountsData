@@ -5,11 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Models\DataModels" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
+      <PackageReference Include="Minio" Version="3.1.13" />
     </ItemGroup>
 
 </Project>

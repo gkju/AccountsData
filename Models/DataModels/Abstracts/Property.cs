@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Reflection.Metadata;
 
@@ -12,12 +13,16 @@ namespace AccountsData.Models.DataModels.Abstracts
     }
     public abstract class Property : ICloneable
     {
+        [Key] 
+        public Guid Id { get; set; }
         public static string Name { get; set; } = "DefaultPropertyName";
 
         //MAKE A COMBINATION SHOULD RETURN THE PREFERRED (HIGHER) VALUE, IT MUSTN'T MODIFY THE PROPERTY ITSELF, JUST MAKE A COMBINATION
         public abstract Property MakeACombination(Property parentProperty);
         
         public abstract void SetDefaultBannedValue();
+        
+        public abstract void SetDefaultAdminValue();
 
         public static ReferenceEquality CheckReferenceEquality(Property a, Property b)
         {

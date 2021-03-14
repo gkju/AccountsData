@@ -5,13 +5,17 @@ using AccountsData.Models.DataModels.Abstracts;
 namespace AccountsData.Models.DataModels.Helpers
 {
     public class SimpleBoolProperty : Property, IEquatable<SimpleBoolProperty>
-
     {
-        protected bool Data;
+        public bool Data { get; set; }
 
         public override void SetDefaultBannedValue()
         {
             Data = false;
+        }
+        
+        public override void SetDefaultAdminValue()
+        {
+            
         }
         public SimpleBoolProperty()
         {
@@ -50,6 +54,11 @@ namespace AccountsData.Models.DataModels.Helpers
 
         public static implicit operator bool(SimpleBoolProperty property)
         {
+            if (ReferenceEquals(property, null))
+            {
+                return false;
+            }
+            
             return property.Data;
         }
 
