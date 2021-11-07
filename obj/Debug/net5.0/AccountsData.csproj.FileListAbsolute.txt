@@ -10,3 +10,15 @@ C:\Users\gkjus\Desktop\VLOBOARDS-PROD\VLO-BOARDS\AccountsData\obj\Debug\net5.0\A
 C:\Users\gkjus\Desktop\VLOBOARDS-PROD\VLO-BOARDS\AccountsData\obj\Debug\net5.0\AccountsData.dll
 C:\Users\gkjus\Desktop\VLOBOARDS-PROD\VLO-BOARDS\AccountsData\obj\Debug\net5.0\ref\AccountsData.dll
 C:\Users\gkjus\Desktop\VLOBOARDS-PROD\VLO-BOARDS\AccountsData\obj\Debug\net5.0\AccountsData.pdb
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\bin\Debug\net5.0\AccountsData.deps.json
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\bin\Debug\net5.0\AccountsData.dll
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\bin\Debug\net5.0\AccountsData.pdb
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.csproj.AssemblyReference.cache
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.AssemblyInfoInputs.cache
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.AssemblyInfo.cs
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.csproj.CoreCompileInputs.cache
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.dll
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\ref\AccountsData.dll
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.pdb
+C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\refint\AccountsData.dll
