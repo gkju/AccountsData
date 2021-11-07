@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NqlfHO+LaKIg4GdK46s/1bcogEhNlANcXKCmtES64CTM4UAGdLjvhnfV3w5Ev4elQGAmN3QrftAXDvxu6Yms/g==",
+  "dgSpecHash": "XruVP/0kF1QO+HTlydjdOtWVMIW9zuai9flP0omUeCAaaoCM3DSurS5lo8xal2Lizncg/9wwRsH4u4lhXMwbAQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gkjus\\Desktop\\VLOBOARDS-PROD\\VLO-BOARDS\\AccountsData\\AccountsData.csproj",
+  "projectFilePath": "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\AccountsData.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gkjus\\.nuget\\packages\\crc32.net\\1.2.0\\crc32.net.1.2.0.nupkg.sha512",
     "C:\\Users\\gkjus\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.4\\microsoft.aspnetcore.cryptography.internal.5.0.4.nupkg.sha512",

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using AccountsData.Models.DataModels.Implementations.RoleScope;
 
 namespace AccountsData.Models.DataModels
 {
@@ -37,24 +36,6 @@ namespace AccountsData.Models.DataModels
                 }
                 
             }
-        }
-
-        public bool UserMayRead(ApplicationUser user = null)
-        {
-            if (Public)
-            {
-                return true;
-            }
-
-            try
-            {
-                return Editors.Contains(user) || Reviewers.Contains(user) || user.MayRead(new ArticlesScope());
-            }
-            catch
-            {
-                return false;
-            }
-            
         }
 
         public List<ApplicationUser> Editors { get; set; } = new List<ApplicationUser>();
