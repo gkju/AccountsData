@@ -22,3 +22,15 @@ C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsDat
 C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\ref\AccountsData.dll
 C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.pdb
 C:\Users\gkjus\Desktop\vlo-boards-full\AccountsData\obj\Debug\net5.0\refint\AccountsData.dll
+Z:\home\gjusz\vlo-boards-full\AccountsData\bin\Debug\net5.0\AccountsData.deps.json
+Z:\home\gjusz\vlo-boards-full\AccountsData\bin\Debug\net5.0\AccountsData.dll
+Z:\home\gjusz\vlo-boards-full\AccountsData\bin\Debug\net5.0\ref\AccountsData.dll
+Z:\home\gjusz\vlo-boards-full\AccountsData\bin\Debug\net5.0\AccountsData.pdb
+Z:\home\gjusz\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.csproj.AssemblyReference.cache
+Z:\home\gjusz\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.GeneratedMSBuildEditorConfig.editorconfig
+Z:\home\gjusz\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.AssemblyInfoInputs.cache
+Z:\home\gjusz\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.AssemblyInfo.cs
+Z:\home\gjusz\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.csproj.CoreCompileInputs.cache
+Z:\home\gjusz\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.dll
+Z:\home\gjusz\vlo-boards-full\AccountsData\obj\Debug\net5.0\ref\AccountsData.dll
+Z:\home\gjusz\vlo-boards-full\AccountsData\obj\Debug\net5.0\AccountsData.pdb

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\AccountsData.csproj": {}
+    "Z:\\home\\gjusz\\vlo-boards-full\\AccountsData\\AccountsData.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\AccountsData.csproj": {
+    "Z:\\home\\gjusz\\vlo-boards-full\\AccountsData\\AccountsData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\AccountsData.csproj",
+        "projectUniqueName": "Z:\\home\\gjusz\\vlo-boards-full\\AccountsData\\AccountsData.csproj",
         "projectName": "AccountsData",
-        "projectPath": "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\AccountsData.csproj",
+        "projectPath": "Z:\\home\\gjusz\\vlo-boards-full\\AccountsData\\AccountsData.csproj",
         "packagesPath": "C:\\Users\\gkjus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\obj\\",
+        "outputPath": "Z:\\home\\gjusz\\vlo-boards-full\\AccountsData\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -73,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-rc.2.21505.57\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
