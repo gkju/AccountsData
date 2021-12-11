@@ -350,7 +350,7 @@
         "runtime": {
           "lib/netstandard2.0/System.Reactive.Linq.dll": {
             "assemblyVersion": "3.0.6000.0",
-            "fileVersion": "3.0.6000.0"
+            "fileVersion": "0.0.0.0"
           }
         }
       },
