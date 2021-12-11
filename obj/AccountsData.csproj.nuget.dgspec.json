@@ -1,34 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\AccountsData.csproj": {}
+    "/home/gjus/vlo-boards-full/AccountsData/AccountsData.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\AccountsData.csproj": {
+    "/home/gjus/vlo-boards-full/AccountsData/AccountsData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\AccountsData.csproj",
+        "projectUniqueName": "/home/gjus/vlo-boards-full/AccountsData/AccountsData.csproj",
         "projectName": "AccountsData",
-        "projectPath": "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\AccountsData.csproj",
-        "packagesPath": "C:\\Users\\gkjus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gkjus\\Desktop\\vlo-boards-full\\AccountsData\\obj\\",
+        "projectPath": "/home/gjus/vlo-boards-full/AccountsData/AccountsData.csproj",
+        "packagesPath": "/home/gjus/.nuget/packages/",
+        "outputPath": "/home/gjus/vlo-boards-full/AccountsData/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\gkjus\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
@@ -72,12 +59,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.0, 6.0.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
         }
       }
     }
