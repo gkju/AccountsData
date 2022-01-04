@@ -9,9 +9,11 @@ namespace AccountsData.Data
         public DbSet<Board> Boards { get; set; }
         public DbSet<Thread> Threads { get; set; }
         public DbSet<File> Files { get; set; }
+        public DbSet<EmailChangeRequest> EmailChangeRequests { get; set; }
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+            
         }
     }
 }
