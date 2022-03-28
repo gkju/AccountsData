@@ -3,10 +3,14 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using AccountsData.Data;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Transfer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Identity;
-using Minio;
+using Microsoft.Extensions.DependencyInjection;
+using nClam;
 
 namespace AccountsData.Models.DataModels
 {
@@ -21,7 +25,7 @@ namespace AccountsData.Models.DataModels
         }
 
         //no di go brrrrrrrrrrrrrrrrrrrrrrr
-        public async Task<string> UploadFile(IFormFile file, ApplicationDbContext dbContext, MinioClient minioClient, string bucket, bool isPublic)
+        public async Task<string> UploadFile(IFormFile file, IServiceProvider serviceProvider, AmazonS3Client minioClient, ClamConfig clamConfig, string bucket, bool isPublic = false, bool userManageable = true)
         {
             if (file.Length < 0)
             {
@@ -31,6 +35,23 @@ namespace AccountsData.Models.DataModels
             if (!MayUpload((UInt64) file.Length))
             {
                 throw new ArgumentException("Attempted to upload file larger than user's leftover space");
+            }
+            
+            var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            
+            var clam = new ClamClient(clamConfig.Host, clamConfig.Port);
+
+            var fileStream = file.OpenReadStream();
+
+            var scanResult = await clam.SendAndScanFileAsync(fileStream);
+            fileStream.Seek(0, SeekOrigin.Begin);
+
+            switch (scanResult.Result)
+            {
+                case ClamScanResults.VirusDetected:
+                    throw new ArgumentException("Virus detected!");
+                case ClamScanResults.Error:
+                    throw new ArgumentException("Clam error");
             }
 
             var minioFile = new File
@@ -42,10 +63,19 @@ namespace AccountsData.Models.DataModels
                 OwnerId = Id,
                 FileName = file.FileName,
                 ContentType = file.ContentType,
-                Public = isPublic
+                Public = isPublic,
+                UserManageable = userManageable
             };
-            
-            await minioClient.PutObjectAsync(minioFile.Bucket, minioFile.ObjectId, file.OpenReadStream(), file.Length, minioFile.ContentType);
+
+            PutObjectRequest uploadRequest = new PutObjectRequest()
+            {
+                InputStream = file.OpenReadStream(),
+                Key = minioFile.ObjectId,
+                BucketName = minioFile.Bucket
+            };
+
+            await minioClient.PutObjectAsync(uploadRequest);
+            minioFile.BackedInMinio = true;
             await dbContext.Files.AddAsync(minioFile);
             UsedBytes += minioFile.ByteSize;
             await dbContext.SaveChangesAsync();
