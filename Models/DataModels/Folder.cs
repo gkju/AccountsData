@@ -9,10 +9,12 @@ namespace AccountsData.Models.DataModels
         [Key]
         public string Id { get; set; }
         
-        public ApplicationUser Owner { get; set; }
         [ForeignKey("Owner")]
         public string OwnerId{ get; set; }
+        public ApplicationUser Owner { get; set; }
 
+        public string? MasterFolderId { get; set; }
+        public Folder? MasterFolder { get; set; }
         public List<Folder> SubFolders;
         public List<File> Files;
     }

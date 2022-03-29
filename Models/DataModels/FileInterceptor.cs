@@ -44,6 +44,18 @@ public class FileInterceptor : SaveChangesInterceptor
                     Key = entity.ObjectId
                 };
 
+                try
+                {
+                    var owner = await eventData.Context.FindAsync<ApplicationUser>(entity.Owner.Id);
+                    owner.UsedBytes -= entity.ByteSize;
+                    await eventData.Context.SaveChangesAsync(cancellationToken);
+                }
+                catch
+                {
+                    Console.WriteLine("Unable to free up user's bytes");
+                }
+                
+
                 await minioClient.DeleteObjectAsync(deleteObjectRequest);
             }
         }
