@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading.Tasks;
 using AccountsData.Data;
 using Amazon.S3;
@@ -30,7 +31,7 @@ namespace AccountsData.Models.DataModels
         }
 
         //no di go brrrrrrrrrrrrrrrrrrrrrrr
-        public async Task<string> UploadFile(IFormFile file, IServiceProvider serviceProvider, AmazonS3Client minioClient, ClamConfig clamConfig, string bucket, bool isPublic = false, bool userManageable = true)
+        public async Task<string> UploadFile(IFormFile file, IServiceProvider serviceProvider, string bucket, bool isPublic = false, bool userManageable = true)
         {
             if (file.Length < 0)
             {
@@ -43,6 +44,8 @@ namespace AccountsData.Models.DataModels
             }
             
             var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            var minioClient = serviceProvider.GetRequiredService<AmazonS3Client>();
+            var clamConfig = serviceProvider.GetRequiredService<ClamConfig>();
             
             var clam = new ClamClient(clamConfig.Host, clamConfig.Port);
 
@@ -76,6 +79,21 @@ namespace AccountsData.Models.DataModels
             UsedBytes += minioFile.ByteSize;
             await dbContext.SaveChangesAsync();
             return minioFile.ObjectId;
+        }
+
+        public async Task DeleteFile(string fileId, IServiceProvider serviceProvider)
+        {
+            var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            var file = Files.First(f => f.ObjectId == fileId);
+            if (file.UserManageable)
+            {
+                dbContext.Remove(file);
+                await dbContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentException("File is not user manageable");
+            }
         }
 
         private async Task<Stream?> PreprocessFile(Stream fileStream, ClamClient clam, string ContentType)

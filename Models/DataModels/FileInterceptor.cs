@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AccountsData.Data;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -36,28 +37,33 @@ public class FileInterceptor : SaveChangesInterceptor
         {
             File entity = entry.Entity;
 
-            if (entity.BackedInMinio)
+            if (!entity.BackedInMinio)
             {
-                var deleteObjectRequest = new DeleteObjectRequest
-                {
-                    BucketName = entity.Bucket,
-                    Key = entity.ObjectId
-                };
-
-                try
-                {
-                    var owner = await eventData.Context.FindAsync<ApplicationUser>(entity.Owner.Id);
-                    owner.UsedBytes -= entity.ByteSize;
-                    await eventData.Context.SaveChangesAsync(cancellationToken);
-                }
-                catch
-                {
-                    Console.WriteLine("Unable to free up user's bytes");
-                }
-                
-
-                await minioClient.DeleteObjectAsync(deleteObjectRequest);
+                continue;
             }
+
+            var deleteObjectRequest = new DeleteObjectRequest
+            {
+                BucketName = entity.Bucket,
+                Key = entity.ObjectId
+            };
+            
+            var context = (ApplicationDbContext) eventData.Context;
+
+            try
+            {
+                var owner = await context.Users.FindAsync(new object?[] { entity.Owner.Id }, cancellationToken: cancellationToken);
+                owner.UsedBytes -= entity.ByteSize;
+                await eventData.Context.SaveChangesAsync(cancellationToken);
+            }
+            catch
+            {
+                Console.WriteLine("Unable to free up user's bytes");
+            }
+            
+
+            await minioClient.DeleteObjectAsync(deleteObjectRequest);
+            
         }
 
         return await base.SavingChangesAsync(eventData, result, cancellationToken);

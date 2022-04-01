@@ -1,4 +1,6 @@
-﻿namespace AccountsData.Models.DataModels;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AccountsData.Models.DataModels;
 
 public class ProfilePicture
 {

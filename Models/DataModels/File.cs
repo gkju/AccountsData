@@ -7,6 +7,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Cppl.Utilities.AWS;
 
 namespace AccountsData.Models.DataModels
 {
@@ -42,5 +43,14 @@ namespace AccountsData.Models.DataModels
         public string? MasterFileId { get; set; }
         public File? MasterFile { get; set; }
         public List<File> ChildrenFiles { get; set; }
+
+        public Stream GetSeekableStream(AmazonS3Client minioClient)
+        {
+            if (!BackedInMinio)
+            {
+                throw new Exception("Attempted to open file not backed in s3");
+            }
+            return new SeekableS3Stream(minioClient, Bucket, ObjectId);
+        }
     }
 }

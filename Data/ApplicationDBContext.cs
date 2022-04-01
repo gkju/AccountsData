@@ -19,6 +19,10 @@ namespace AccountsData.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ApplicationUser>()
+                .HasOne<ProfilePicture>()
+                .WithOne(p => p.Owner);
+            
             builder.Entity<File>()
                 .HasOne(f => f.MasterFile)
                 .WithMany(f => f.ChildrenFiles)
