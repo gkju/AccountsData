@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AccountsData.Models.DataModels
 {
-    public partial class ApplicationUser : IdentityUser
+    public partial class ApplicationUser
     {
         public void HandleExternalAuth(UserLoginInfo info)
         {

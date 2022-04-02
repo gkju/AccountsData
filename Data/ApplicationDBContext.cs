@@ -11,6 +11,9 @@ namespace AccountsData.Data
         public DbSet<File> Files { get; set; }
         public DbSet<Folder> Folders { get; set; }
         public DbSet<EmailChangeRequest> EmailChangeRequests { get; set; }
+        
+        public DbSet<Fido2Pk> FidoCredentials { get; set; }
+        
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options) : base(options)
         {
