@@ -5,12 +5,18 @@ namespace AccountsData.Models.DataModels;
 
 public class EmailChangeRequest
 {
-    [Key] public Guid Id { get; set; }
-    [Required] public ApplicationUser User { get; set; }
-    [Required] public string Email { get; set; }
-    [Required] public string CodeHash { get; set; }
-    [Required] public DateTime Date { get; set; }
-    public bool Realised { get; set; }
+    [Key] 
+    public Guid Id { get; set; }
+    
+    public string UserId { get; set; }
+    public ApplicationUser User { get; set; }
+
+    public string Email { get; set; }
+
+    public string CodeHash { get; set; }
+
+    public DateTime Date { get; set; }
+    public bool Realized { get; set; }
 
     public EmailChangeRequest()
     {

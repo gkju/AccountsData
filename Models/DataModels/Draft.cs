@@ -4,13 +4,13 @@ namespace AccountsData.Models.DataModels
 {
     public class Draft
     {
-        [Required]
-        public Article Article { get; set; }
-        [Required]
-        public int ArticleId { get; set; }
-        [Required]
-        public EditorjsPost Contents { get; set; }
-        [Required]
+        public string AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
+        
+        public string ArticleId { get; set; }
+        public Article Article { get; set; }
+        
+        public EditorjsPost ContentsId { get; set; }
+        public EditorjsPost Contents { get; set; }
     }
 }

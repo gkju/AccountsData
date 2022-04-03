@@ -52,9 +52,8 @@ public class FileInterceptor : SaveChangesInterceptor
 
             try
             {
-                var owner = await context.Users.FindAsync(new object?[] { entity.Owner.Id }, cancellationToken: cancellationToken);
+                var owner = await context.Users.FindAsync(new object?[] { entity.OwnerId }, cancellationToken: cancellationToken);
                 owner.UsedBytes -= entity.ByteSize;
-                await eventData.Context.SaveChangesAsync(cancellationToken);
             }
             catch
             {

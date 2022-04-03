@@ -6,13 +6,14 @@ namespace AccountsData.Models.DataModels
 {
     public class Article
     {
-        [Required]
+
+        public ApplicationUser AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
-        [Required]
+
         public string Title { get; set; }
-        [Required]
+
         public string Description { get; set; }
-        [Required]
+
         public bool Public {
             get
             {

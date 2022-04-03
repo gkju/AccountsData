@@ -124,5 +124,11 @@ namespace AccountsData.Models.DataModels
 
             return null;
         }
+
+        public void DeleteProfilePicture(ApplicationDbContext dbContext)
+        {
+            dbContext.Files.Remove(ProfilePicture.Picture);
+            dbContext.ProfilePictures.Remove(ProfilePicture);
+        }
     }
 }

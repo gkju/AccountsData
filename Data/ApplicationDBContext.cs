@@ -10,6 +10,7 @@ namespace AccountsData.Data
         public DbSet<Thread> Threads { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Folder> Folders { get; set; }
+        public DbSet<ProfilePicture> ProfilePictures { get; set; }
         public DbSet<EmailChangeRequest> EmailChangeRequests { get; set; }
         
         public DbSet<Fido2Pk> FidoCredentials { get; set; }
@@ -25,7 +26,7 @@ namespace AccountsData.Data
             builder.Entity<ApplicationUser>()
                 .HasOne<ProfilePicture>()
                 .WithOne(p => p.Owner);
-            
+
             builder.Entity<File>()
                 .HasOne(f => f.MasterFile)
                 .WithMany(f => f.ChildrenFiles)
@@ -40,7 +41,7 @@ namespace AccountsData.Data
                 .HasOne(f => f.MasterFolder)
                 .WithMany(f => f.SubFolders)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             base.OnModelCreating(builder);
         }
     }
