@@ -70,7 +70,8 @@ namespace AccountsData.Models.DataModels
             {
                 InputStream = stream ?? file.OpenReadStream(),
                 Key = minioFile.ObjectId,
-                BucketName = minioFile.Bucket
+                BucketName = minioFile.Bucket,
+                ContentType = file.ContentType,
             };
 
             await minioClient.PutObjectAsync(uploadRequest);

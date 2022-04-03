@@ -52,5 +52,37 @@ namespace AccountsData.Models.DataModels
             }
             return new SeekableS3Stream(minioClient, Bucket, ObjectId);
         }
+
+        public string GetSignedUrl(AmazonS3Client minioClient, TimeSpan? duration = null,
+            ContentDisposition? contentDisposition = null, ContentType? contentType = null)
+        {
+            if (!BackedInMinio)
+            {
+                throw new Exception("Attempted to open file not backed in s3");
+            }
+
+            duration ??= TimeSpan.FromDays(7);
+
+            var request = new GetPreSignedUrlRequest()
+            {
+                BucketName = Bucket,
+                Key = ObjectId,
+                Expires = DateTime.UtcNow.Add((TimeSpan) duration),
+                Verb = HttpVerb.GET
+            };
+            
+            contentDisposition ??= new ContentDisposition
+            {
+                FileName = FileName,
+                Inline = false
+            };
+            contentType ??= new ContentType(ContentType);
+            
+            
+            request.ResponseHeaderOverrides.ContentType = contentType.ToString();
+            request.ResponseHeaderOverrides.ContentDisposition = contentDisposition.ToString();
+
+            return minioClient.GetPreSignedURL(request);
+        }
     }
 }
