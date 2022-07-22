@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Fido2NetLib.Objects;
 
 namespace AccountsData.Models.DataModels;
 
 public class Fido2Pk
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
     public string Id { get; set; }
     

@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AccountsData.Models.DataModels;
-using AccountsData.Models.DataModels.Implementations.Properties;
-using AccountsData.Models.DataModels.Implementations.Roles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 
 namespace AccountsData.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Properties> Properties { get; set; }
-        
         public DbSet<Board> Boards { get; set; }
         public DbSet<Thread> Threads { get; set; }
         public DbSet<File> Files { get; set; }
@@ -34,7 +32,6 @@ namespace AccountsData.Data
                 .HasOne<ProfilePicture>()
                 .WithOne(p => p.Owner);
 
-
             builder.Entity<File>()
                 .HasOne(f => f.MasterFile)
                 .WithMany(f => f.ChildrenFiles)
@@ -49,43 +46,6 @@ namespace AccountsData.Data
                 .HasOne(f => f.MasterFolder)
                 .WithMany(f => f.SubFolders)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<AdminProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("BoolData");
-            builder.Entity<AuthorityProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("IntData");
-            builder.Entity<BannedProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("BoolData");
-            builder.Entity<BanUsersProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("BoolData");
-            builder.Entity<EditOrDeleteProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("BoolData");
-            builder.Entity<MayManageRolesProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("BoolData");
-            builder.Entity<MemberProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("BoolData");
-            builder.Entity<Prefixes>()
-                .Property(p => p.Data)
-                .HasColumnName("PrefixData")
-                .HasConversion(
-                    v => JsonConvert.SerializeObject(v),
-                    v => JsonConvert.DeserializeObject<HashSet<Prefix>>(v));
-            builder.Entity<ReadProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("BoolData");
-            builder.Entity<ViewProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("BoolData");
-            builder.Entity<WriteProperty>()
-                .Property(p => p.Data)
-                .HasColumnName("BoolData");
             base.OnModelCreating(builder);
         }
     }
