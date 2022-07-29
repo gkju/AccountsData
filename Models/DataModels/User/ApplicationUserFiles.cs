@@ -8,12 +8,15 @@ using AccountsData.Data;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
-using ImageMagick;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using nClam;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Formats.Webp;
+using SixLabors.ImageSharp.Processing;
 
 namespace AccountsData.Models.DataModels
 {
@@ -109,16 +112,24 @@ namespace AccountsData.Models.DataModels
                 case ClamScanResults.Error:
                     throw new ArgumentException("Clam error");
             }
+            
+            // only process raster images and avif chads do not get image processing yet. sad.
+            if (ContentType.StartsWith("image/svg") || ContentType.StartsWith("image/avif"))
+            {
+                return fileStream;
+            }
 
             if (ContentType.StartsWith("image"))
             {
-                using var image = new MagickImage(fileStream);
-                image.Strip();
-                image.AutoOrient();
+                using var image = Image.Load(fileStream);
+
+                image.Mutate(x => x.AutoOrient());
+                image.Metadata.ExifProfile = null;
+                image.Metadata.XmpProfile = null;
 
                 var stream = new MemoryStream();
                 
-                await image.WriteAsync(stream);
+                await image.SaveAsync(stream, new WebpEncoder());
                 stream.Seek(0, SeekOrigin.Begin);
                 return stream;
             }
