@@ -32,16 +32,6 @@ namespace AccountsData.Data
                 .HasOne<ProfilePicture>()
                 .WithOne(p => p.Owner);
 
-            builder.Entity<File>()
-                .HasOne(f => f.MasterFile)
-                .WithMany(f => f.ChildrenFiles)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<File>()
-                .HasOne(f => f.Parent)
-                .WithMany(f => f.Files)
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.Entity<Folder>()
                 .HasOne(f => f.MasterFolder)
                 .WithMany(f => f.SubFolders)

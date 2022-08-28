@@ -38,12 +38,6 @@ namespace AccountsData.Models.DataModels
         public string? ParentId{ get; set; }
         public Folder? Parent { get; set; }
 
-        // useful for hls fragments
-        [ForeignKey("MasterFile")]
-        public string? MasterFileId { get; set; }
-        public File? MasterFile { get; set; }
-        public List<File> ChildrenFiles { get; set; }
-
         public Stream GetSeekableStream(AmazonS3Client minioClient)
         {
             if (!BackedInMinio)
