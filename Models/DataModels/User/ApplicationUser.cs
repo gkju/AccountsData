@@ -14,12 +14,25 @@ namespace AccountsData.Models.DataModels
         
         public double SocialCredit { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public List<Fido2Pk> FidoCredentials { get; set; } = new ();
+        public List<Article> Articles { get; set; } = new();
         
+        [System.Text.Json.Serialization.JsonIgnore]
         public string? AssertionOptionsJson { get; set; }
         
+        [System.Text.Json.Serialization.JsonIgnore]
         public string? AttestationOptionsJson { get; set; }
         
+        [System.Text.Json.Serialization.JsonIgnore]
+        public override string? PasswordHash { get; set; }
+        
+        [System.Text.Json.Serialization.JsonIgnore]
+        public override string? ConcurrencyStamp { get; set; }
+        
+        [System.Text.Json.Serialization.JsonIgnore]
+        public override string? SecurityStamp { get; set; }
+
         public static implicit operator Fido2User (ApplicationUser user)
         {
             return new Fido2User

@@ -15,10 +15,14 @@ namespace AccountsData.Data
         public DbSet<Thread> Threads { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Folder> Folders { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        
         public DbSet<ProfilePicture> ProfilePictures { get; set; }
         public DbSet<EmailChangeRequest> EmailChangeRequests { get; set; }
         
         public DbSet<Fido2Pk> FidoCredentials { get; set; }
+        
+        public DbSet<Tag> Tags { get; set; }
         
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -32,6 +36,16 @@ namespace AccountsData.Data
                 .HasOne<ProfilePicture>()
                 .WithOne(p => p.Owner);
 
+            builder.Entity<ApplicationUser>()
+                .HasMany(u => u.Articles);
+
+            builder.Entity<Article>()
+                .HasOne(a => a.Author);
+            builder.Entity<Article>()
+                .HasMany(a => a.Editors);
+            builder.Entity<Article>()
+                .HasMany(a => a.Reviewers);
+            
             builder.Entity<Folder>()
                 .HasOne(f => f.MasterFolder)
                 .WithMany(f => f.SubFolders)

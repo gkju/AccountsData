@@ -78,5 +78,15 @@ namespace AccountsData.Models.DataModels
 
             return minioClient.GetPreSignedURL(request);
         }
+
+        public bool MayView(ApplicationUser user)
+        {
+            if (Owner == user)
+            {
+                return true;
+            }
+
+            return Public;
+        }
     }
 }

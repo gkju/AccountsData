@@ -24,7 +24,9 @@ namespace AccountsData.Models.DataModels
         public long UsedBytes { get; set; }
         public long MaxBytes { get; set; } = 1000000000;
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public List<File> Files { get; set; } = new ();
+        [System.Text.Json.Serialization.JsonIgnore]
         public List<Folder> Folders { get; set; } = new();
 
         public bool MayUpload(long FileSizeInBytes)
