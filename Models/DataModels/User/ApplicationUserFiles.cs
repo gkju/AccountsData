@@ -34,6 +34,7 @@ namespace AccountsData.Models.DataModels
             return FileSizeInBytes + UsedBytes <= MaxBytes;
         }
 
+        // TODO: speedup (imagemagick for arm?)
         //no di go brrrrrrrrrrrrrrrrrrrrrrr
         public async Task<string> UploadFile(IFormFile file, IServiceProvider serviceProvider, string bucket, bool isPublic = false, bool userManageable = true)
         {
@@ -54,28 +55,38 @@ namespace AccountsData.Models.DataModels
             var clam = new ClamClient(clamConfig.Host, clamConfig.Port);
 
             var fileStream = file.OpenReadStream();
-            var stream = await PreprocessFile(fileStream, clam, file.ContentType);
+            var res = await PreprocessFile(fileStream, clam, file.ContentType);
             var owner = await dbContext.Users.FindAsync(this.Id);
 
+            string? newFileName = null;
+            
+            if (res is not null && res.Item2 == "image/webp")
+            {
+                newFileName = Path.ChangeExtension(file.FileName, ".webp");
+            }
+
+            string contentType = res is not null ? res.Item2 : file.ContentType;
+            
             var minioFile = new File
             {
                 Bucket = bucket,
-                ByteSize = stream is not null ? stream.Length : file.Length,
+                ByteSize = res is not null ? res.Item1.Length : file.Length,
                 ObjectId = Guid.NewGuid().ToString(),
                 Owner = owner,
-                FileName = file.FileName,
-                ContentType = file.ContentType,
+                FileName = newFileName is not null ? newFileName : file.FileName,
+                ContentType = contentType,
                 Public = isPublic,
                 UserManageable = userManageable
             };
             owner.Files.Add(minioFile);
 
+            // TODO: work on this after getting back
             PutObjectRequest uploadRequest = new PutObjectRequest()
             {
-                InputStream = stream ?? file.OpenReadStream(),
+                InputStream = res is not null ? res.Item1 : file.OpenReadStream(),
                 Key = minioFile.ObjectId,
                 BucketName = minioFile.Bucket,
-                ContentType = file.ContentType,
+                ContentType = contentType,
             };
 
             await minioClient.PutObjectAsync(uploadRequest);
@@ -101,7 +112,7 @@ namespace AccountsData.Models.DataModels
             }
         }
 
-        private async Task<Stream?> PreprocessFile(Stream fileStream, ClamClient clam, string ContentType)
+        private async Task<Tuple<Stream,string>?> PreprocessFile(Stream fileStream, ClamClient clam, string ContentType)
         {
             var scanResult = await clam.SendAndScanFileAsync(fileStream);
             fileStream.Seek(0, SeekOrigin.Begin);
@@ -117,7 +128,7 @@ namespace AccountsData.Models.DataModels
             // only process raster images and avif chads do not get image processing yet. sad.
             if (ContentType.StartsWith("image/svg") || ContentType.StartsWith("image/avif"))
             {
-                return fileStream;
+                return new (fileStream, ContentType);
             }
 
             if (ContentType.StartsWith("image"))
@@ -132,7 +143,7 @@ namespace AccountsData.Models.DataModels
                 
                 await image.SaveAsync(stream, new WebpEncoder());
                 stream.Seek(0, SeekOrigin.Begin);
-                return stream;
+                return new (stream, "image/webp");
             }
 
             return null;

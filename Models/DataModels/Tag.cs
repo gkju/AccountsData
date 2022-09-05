@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace AccountsData.Models.DataModels;
@@ -6,6 +7,9 @@ namespace AccountsData.Models.DataModels;
 public class Tag
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
+    
+    [System.Text.Json.Serialization.JsonIgnore]
+    public List<Article> Articles { get; set; }
     
     public ApplicationUser Author { get; set; }
     public string Content { get; set; }
