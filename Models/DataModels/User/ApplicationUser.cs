@@ -16,6 +16,37 @@ namespace AccountsData.Models.DataModels
 
         [System.Text.Json.Serialization.JsonIgnore]
         public List<Fido2Pk> FidoCredentials { get; set; } = new ();
+
+
+        public bool HasPassword
+        {
+            get
+            {
+                if(PasswordHash != null && PasswordHash.Length > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            set
+            {
+                
+            }
+        }
+
+        public int FidoCount
+        {
+            get
+            {
+                return FidoCredentials.Count;
+            }
+            set
+            {
+                
+            }
+        }
+
+        [System.Text.Json.Serialization.JsonIgnore]
         public List<Article> Articles { get; set; } = new();
         
         [System.Text.Json.Serialization.JsonIgnore]

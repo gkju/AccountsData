@@ -24,6 +24,10 @@ namespace AccountsData.Data
         
         public DbSet<Tag> Tags { get; set; }
         
+        public DbSet<Comment> Comments { get; set; }
+        
+        public DbSet<Reaction> Reactions { get; set; }
+        
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -45,11 +49,13 @@ namespace AccountsData.Data
                 .HasMany(a => a.Editors);
             builder.Entity<Article>()
                 .HasMany(a => a.Reviewers);
+            builder.Entity<Article>()
+                .HasMany(a => a.Reactions);
             
             builder.Entity<Folder>()
-                .HasOne(f => f.MasterFolder)
-                .WithMany(f => f.SubFolders)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(f => f.MasterFolder);
+            builder.Entity<Folder>()
+                .HasMany(f => f.Files);
             base.OnModelCreating(builder);
         }
     }

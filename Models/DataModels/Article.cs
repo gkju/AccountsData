@@ -55,7 +55,11 @@ namespace AccountsData.Models.DataModels
 
         public DateTime AutoPublishOn { get; set; } = new ();
         
-        public File Picture { get; set; }
+        public File? Picture { get; set; }
+
+        public List<Reaction> Reactions { get; set; } = new ();
+
+        public List<Comment> Comments { get; set; } = new();
 
         public Article()
         {
@@ -82,11 +86,16 @@ namespace AccountsData.Models.DataModels
             return UserCanEdit(user);
         }
 
-        public bool UserCanView(ApplicationUser user)
+        public bool UserCanView(ApplicationUser? user)
         {
-            if (Public)
+            if (IsPublic())
             {
                 return true;
+            }
+
+            if (user is null)
+            {
+                return false;
             }
 
             return UserCanReview(user);
@@ -146,10 +155,12 @@ public class Revision
     [Key]
     public string RevisionId { get; set; } = Guid.NewGuid().ToString();
     
+    [System.Text.Json.Serialization.JsonIgnore]
     public ApplicationUser Author { get; set; }
     public string ContentJson { get; set; }
     public DateTime ModifiedOn { get; set; }
     
     public string ArticleId { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
     public Article Article { get; set; }
 }

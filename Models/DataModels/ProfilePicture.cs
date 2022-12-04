@@ -12,5 +12,6 @@ public class ProfilePicture
     public File Picture { get; set; }
     
     public string OwnerId { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
     public ApplicationUser Owner { get; set; }
 }

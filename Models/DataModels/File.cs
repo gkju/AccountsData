@@ -28,13 +28,12 @@ namespace AccountsData.Models.DataModels
         
         public string ContentType { get; set; }
         
-        [ForeignKey("Owner")]
         public string OwnerId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public ApplicationUser Owner { get; set; }
 
         public long ByteSize { get; set; }
         
-        [ForeignKey("Parent")]
         public string? ParentId{ get; set; }
         public Folder? Parent { get; set; }
 

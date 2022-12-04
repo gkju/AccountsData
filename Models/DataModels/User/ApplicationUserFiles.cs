@@ -8,8 +8,10 @@ using AccountsData.Data;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
+using ImageMagick;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using nClam;
 using SixLabors.ImageSharp;
@@ -100,8 +102,14 @@ namespace AccountsData.Models.DataModels
         public async Task DeleteFile(string fileId, IServiceProvider serviceProvider)
         {
             var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            var file = Files.First(f => f.ObjectId == fileId);
-            if (file.UserManageable)
+            var file = await dbContext.Files.Where(f => f.ObjectId == fileId).FirstOrDefaultAsync();
+
+            if (file is null)
+            {
+                throw new ArgumentException("No file of given id");
+            }
+            
+            if (MayEdit(file) && file.UserManageable)
             {
                 dbContext.Remove(file);
                 await dbContext.SaveChangesAsync();
@@ -114,17 +122,21 @@ namespace AccountsData.Models.DataModels
 
         private async Task<Tuple<Stream,string>?> PreprocessFile(Stream fileStream, ClamClient clam, string ContentType)
         {
-            var scanResult = await clam.SendAndScanFileAsync(fileStream);
-            fileStream.Seek(0, SeekOrigin.Begin);
-
-            switch (scanResult.Result)
+            // TODO: Handle virus scanning for large files
+            if (fileStream.Length < 26214400)
             {
-                case ClamScanResults.VirusDetected:
-                    throw new ArgumentException("Virus detected!");
-                case ClamScanResults.Error:
-                    throw new ArgumentException("Clam error");
+                var scanResult = await clam.SendAndScanFileAsync(fileStream);
+                fileStream.Seek(0, SeekOrigin.Begin);
+
+                switch (scanResult.Result)
+                {
+                    case ClamScanResults.VirusDetected:
+                        throw new ArgumentException("Virus detected!");
+                    case ClamScanResults.Error:
+                        throw new ArgumentException("Clam error");
+                }
             }
-            
+
             // only process raster images and avif chads do not get image processing yet. sad.
             if (ContentType.StartsWith("image/svg") || ContentType.StartsWith("image/avif"))
             {
@@ -133,7 +145,17 @@ namespace AccountsData.Models.DataModels
 
             if (ContentType.StartsWith("image"))
             {
-                using var image = Image.Load(fileStream);
+                using var image = new MagickImage(fileStream);
+                
+                image.Strip();
+                image.Format = MagickFormat.WebP;
+                
+                var stream = new MemoryStream();
+
+                await image.WriteAsync(stream);
+                stream.Seek(0, SeekOrigin.Begin);
+                return new (stream, "image/webp");
+                /*using var image = Image.Load(fileStream);
 
                 image.Mutate(x => x.AutoOrient());
                 image.Metadata.ExifProfile = null;
@@ -143,7 +165,7 @@ namespace AccountsData.Models.DataModels
                 
                 await image.SaveAsync(stream, new WebpEncoder());
                 stream.Seek(0, SeekOrigin.Begin);
-                return new (stream, "image/webp");
+                return new (stream, "image/webp");*/
             }
 
             return null;
@@ -154,6 +176,26 @@ namespace AccountsData.Models.DataModels
             dbContext.Files.Remove(ProfilePicture.Picture);
             dbContext.ProfilePictures.Remove(ProfilePicture);
             await dbContext.SaveChangesAsync();
+        }
+
+        public Boolean MayEdit(Folder folder)
+        {
+            if (folder.OwnerId == this.Id)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
+        public Boolean MayEdit(File file)
+        {
+            if (file.OwnerId == this.Id)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

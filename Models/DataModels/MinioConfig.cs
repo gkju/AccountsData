@@ -6,6 +6,6 @@ namespace AccountsData.Models.DataModels
     {
         public string BucketName { get; set; }
         public string VideoBucketName { get; set; }
-        public static readonly string AuthenticationRegion = RegionEndpoint.USEast1.SystemName;
+        public static readonly string AuthenticationRegion = RegionEndpoint.EUCentral1.SystemName;
     }
 }

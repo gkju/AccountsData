@@ -12,12 +12,12 @@ namespace AccountsData.Models.DataModels
         public string Name { get; set; }
         
         public string OwnerId{ get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public ApplicationUser Owner { get; set; }
 
-        public string MasterFolderId { get; set; }
+        public string? MasterFolderId { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
         public Folder? MasterFolder { get; set; }
-        public List<Folder> SubFolders;
         public List<File> Files;
     }
 }

@@ -11,6 +11,8 @@ public class Tag
     [System.Text.Json.Serialization.JsonIgnore]
     public List<Article> Articles { get; set; }
     
+    public string AuthorId { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
     public ApplicationUser Author { get; set; }
     public string Content { get; set; }
     
